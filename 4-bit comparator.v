@@ -4,7 +4,7 @@ module comparator(data1, data2, great, equal,less);
   input [3:0] data1, data2;
   output reg great,equal,less;
   
-  
+  //wire signed [3:0] data1,data2; /*for signed comparison*/
   always@(data1,data2)begin
     if(data1 > data2) begin
       great = 1'b1;

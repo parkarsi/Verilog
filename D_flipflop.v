@@ -6,7 +6,7 @@ module dff(clock,reset,set,enable,d,q,qbar);
   input clock,reset,set,enable,d;
   output reg q,qbar;
   
-  always@(clock)begin
+  always@(posedge clock)begin
     if(reset) begin
       q <= 1'b0;
       qbar <= 1'b0;

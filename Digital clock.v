@@ -1,15 +1,15 @@
-/*Dital Clock*/
+/*Digital Clock*/
 module digital_clock(clock,reset,sec,min,hr);
   input clock,reset;
   output reg [5:0] sec, min;
   output reg [4:0] hr;
   
-  always@(posedge clock) begin
+  always@(posedge clock or posedge reset) begin
     if(reset) begin
       sec = 0;
       min = 0;
       hr  = 0;
-    end else
+    end else if(clock)
       begin
         sec = sec + 1;
         if(sec == 60) begin
@@ -28,6 +28,7 @@ module digital_clock(clock,reset,sec,min,hr);
       end
   end
 endmodule
+
 /*Testbench*/
 module digital_clock_tb;
   
@@ -38,11 +39,11 @@ module digital_clock_tb;
   digital_clock DC(clock,reset,sec,min,hr);
   
   initial $monitor($time," hr = %d min = %d sec =%d",hr,min,sec);
-  initial clock = 1'b0;
-  always #5 clock = ~clock;
+  initial clock = 1'b1;
+  always #2 clock = ~clock;
   initial begin
     reset = 1'b1;
-    #8 reset = 1'b0;
+    #3 reset = 1'b0;
     #1000000 $finish;
   end
   initial begin

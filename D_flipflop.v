@@ -23,6 +23,28 @@ module dff(clock,reset,set,enable,d,q,qbar);
     
 endmodule
 
+/*Asynchrounous*/
+module dff(clock,reset,set,enable,d,q,qbar);
+  input clock,reset,set,enable,d;
+  output reg q,qbar;
+  
+  always@(posedge clock or posedge reset or posedge set or posedge enable)begin
+    if(reset) begin
+      q <= 1'b0;
+      qbar <= 1'b0;
+    end
+    else if(set) begin
+      q <= 1'b1;
+      qbar <= 1'b1;      
+    end
+    else if(enable && clock) begin
+      q <= d;
+      qbar <= ~d;      
+    end
+  end
+    
+endmodule
+
 /*Testbench*/
 module dff_tb;
   reg clock,reset,set,enable,d;

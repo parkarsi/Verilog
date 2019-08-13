@@ -1,5 +1,5 @@
 /*binary to BCD*/
-/* Double dabble alogorithm or shift-and-add-3 algo */
+/* Double dabble algorithm or shift-and-add-3 algo */
 
 module double_dabble(input_bin, output_bin);
   input [7:0] input_bin;

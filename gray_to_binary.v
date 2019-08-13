@@ -5,7 +5,7 @@ module gray_to_bin#(parameter SIZE = 4)(gray,bin);
   reg [SIZE:0] i;
   always@(*)begin
     for (int i=0;i<SIZE;i=i+1) begin
-      //bin[i] = ^(gray[SIZE-1:i]);
+      //bin[i] = ^(gray[SIZE-1:i]); //verilog and SV donot permit part select using a variable index range
       bin[i] = ^(gray>>i);
     end
     

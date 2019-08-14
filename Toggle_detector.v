@@ -64,3 +64,53 @@ module detector_tb;
     $dumpvars;
   end
 endmodule
+
+/*Other way*/
+module detector(clock, reset,x,z,toggle,rise,fall);
+  input clock,reset,x;
+  output reg z,toggle,rise,fall;
+  
+  always@(posedge clock) begin
+    if(reset) begin 
+      z<=0;
+    end
+    else begin
+      z<=x;
+    end
+  end
+
+  assign toggle = z^x;
+  assign rise = ~x&z;
+  assign fall = x&~z;
+  
+endmodule
+
+/*Testbench*/
+module detector_tb;
+  reg clock, reset, x;
+  wire z,toggle,rise,fall;
+  
+  detector D(clock,reset,x,z,toggle,rise,fall);
+  
+  initial clock = 1'b1;
+  
+  always #5 clock = ~clock;
+  
+  initial $monitor($time,"x=%b, z=%b, toggle=%b, rise=%b, fall=%b",x,z,toggle,rise,fall);
+  initial 
+    begin
+      reset = 1'b1;
+      x = 1'b1;
+      #10 reset = 'b0;
+      x = 1'b1;
+      #10 x = 'b0;
+      #10 x = 'b0;
+      #10 x = 'b1;
+      #10 $finish;
+    end
+  
+  initial begin
+    $dumpfile("dump.vcd");
+    $dumpvars;
+  end
+endmodule

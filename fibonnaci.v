@@ -6,23 +6,24 @@ module fib(clock,reset,user_input,fib_output);
   reg [7:0] counter;
   reg ready;
   reg [19:0] prev_state, next_state;
-  always@(posedge clock)
-    begin
-      if(reset) begin
+  always@(reset) begin
         prev_state <= 'd0;
         next_state <= 'd1;
         counter <= 'd1;
-        ready <= 0;
+        //ready <= 0;
       end
-      else begin
-        if(counter != user_input) begin
+  always@(posedge clock)
+   begin
+      
           next_state <= next_state + prev_state;
           prev_state <= next_state;
           counter <= counter + 'd1;
+      // $display("%d",next_state);
+     if(counter == (user_input-1)) begin 
           ready <= 1;
         end
         else ready<=0;
-      end
+      
     end
   
   assign fib_output = next_state;
